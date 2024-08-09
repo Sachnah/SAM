@@ -1,0 +1,22 @@
+GENERATE 1, 5			;Customers arrive every 1 to 5 minutes
+QUEUE BarberQueue		;Customers enter the queue
+
+SEIZE Barber1			;
+TEST E Barber1,1,TRYBARBER2
+ADVANCE 0
+
+TRYBARBER2 SEIZE Barber2
+TEST E Barber2,1,JOINQUEUE
+ADVANCE 0
+
+JOINQUEUE QUEUE BarberQueue
+DEPART BarberQueue
+ADVANCE 10,5
+RELEASE Barber1
+RELEASE Barber2
+TERMINATE 1
+
+Barber1 STORAGE 1
+Barber2 STORAGE 1
+
+START 100
